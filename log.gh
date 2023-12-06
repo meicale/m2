@@ -1,0 +1,15 @@
+[stage]
+[todo]
+问题记录：  
+1. 在nix上无法安装flashmm 这个cuda 插件
+2. 无法下载使用c4 数据，使用全局模式也失败，估计和环境安装也有关系，并没有进度条显示
+3. 该模型使用的硬件为A100， 相应的数据类型为bf16，但是，本机的硬件p1000 只支持float16
+
+其他记录：
+1. 可以使用poetry add $(cat requirements.txt) 实现pip转poetry，但是，效果一般
+2. 在安装cuda 的插件之后，如果重新更新了python等系统配置，可能需要重新安装该cuda插件。
+
+解决方法：
+1. 使用docker image 中安装使用该repo ，具体的dockers为22.11, 因为这个版使用了torch 1.30.0 
+docker run --gpus all  --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 -it --name m2 nvcr.io/nvidia/pytorch:22.11-py3
+todo: 22.11 版本虽然使用了接近的torch 版本，但是，python版本为3.8，而且安装requirements 中会切换为1.30.1，考虑可会会切换到其他的版本的docker image
